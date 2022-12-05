@@ -30,6 +30,16 @@ public class UniversityManagementSystem {
     static int courseCodeItemsNumber = 0;
     static int courseNumberHoursItemsNumber = 0;
 
+    // Instructor information
+    static int[] instructorIds = new int[length];
+    static String[] instructorNames = new String[length];
+    static String[] instructorPasswords = new String[length];
+    static int[] instructorDepartmentIds = new int[length];
+    static int instructorIdsItemsNumber = 0;
+    static int instructorNamesItemsNumber = 0;
+    static int instructorPasswordsItemsNumber = 0;
+    static int instructorDepartmentIdsItemsNumber = 0;
+
     // Start app in this fnction
     public static void main(String[] args) {
         while (true) {
@@ -109,21 +119,27 @@ public class UniversityManagementSystem {
             switch (select) {
                 case 1: {
                     add();
+                    break;
                 }
                 case 2: {
                     assgin();
+                    break;
                 }
                 case 3: {
                     show();
+                    break;
                 }
                 case 4: {
                     update();
+                    break;
                 }
                 case 5: {
                     delete();
+                    break;
                 }
                 case 6: {
                     search();
+                    break;
                 }
             }
         } while (select != 7);
@@ -152,15 +168,19 @@ public class UniversityManagementSystem {
             switch (select) {
                 case 1: {
                     addDepartments();
+                    break;
                 }
                 case 2: {
                     addCourse();
+                    break;
                 }
                 case 3: {
                     addInstructor();
+                    break;
                 }
                 case 4: {
                     addStudent();
+                    break;
                 }
             }
         } while (select != 5);
@@ -187,9 +207,7 @@ public class UniversityManagementSystem {
         departmentNames[departmentNamesItemsNumber] = name;
         departmentIdsItemsNumber++;
         departmentNamesItemsNumber++;
-        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-        System.out.println("^     Success Process     ^");
-        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        successProcess();
     }
 
     public static void addCourse() {
@@ -202,20 +220,65 @@ public class UniversityManagementSystem {
         System.out.print("\nEnter Course Number of Hours: ");
         double numHours = input.nextDouble();
         courseIds[courseIdsItemsNumber] = id;
-        courseNames[courseNamesItemsNumber] = name; // ItemsNumber
+        courseNames[courseNamesItemsNumber] = name;
         courseCode[courseCodeItemsNumber] = code;
         courseNumberHours[courseNumberHoursItemsNumber] = numHours;
         courseIdsItemsNumber++;
         courseNamesItemsNumber++;
         courseCodeItemsNumber++;
         courseNumberHoursItemsNumber++;
-        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^");
-        System.out.println("^     Success Process     ^");
-        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        successProcess();
     }
 
     public static void addInstructor() {
+        System.out.print("Enter Instructor ID: ");
+        int id = input.nextInt();
+        System.out.print("\nEnter Instructor Name: ");
+        String name = input.next();
+        System.out.print("\nEnter Instructor Password: ");
+        String password = input.next();
+        int departmentId = 0;
+        while (true) {
+            if (departmentIdsItemsNumber != 0) {
+                while (true) {
+                    System.out.println("\nSelect Department: ");
+                    showDepartments();
+                    departmentId = input.nextInt();
+                    if (checkDepartmentIdExist(departmentId)) {
+                        instructorIds[instructorIdsItemsNumber] = id;
+                        break;
+                    } else {
+                        System.out.println("Error, Enter Department Id corrected!");
+                    }
+                }
+                break;
+            } else {
+                addDepartments();
+            }
+        }
+        instructorNames[instructorNamesItemsNumber] = name;
+        instructorPasswords[instructorPasswordsItemsNumber] = password;
+        instructorDepartmentIds[instructorDepartmentIdsItemsNumber] = departmentId;
+        instructorIdsItemsNumber++;
+        instructorNamesItemsNumber++;
+        instructorPasswordsItemsNumber++;
+        instructorDepartmentIdsItemsNumber++;
+        successProcess();
+    }
 
+    public static void showDepartments() {
+        for (int i = 0; i < departmentIdsItemsNumber; i++) {
+            System.out.println(i + "-" + departmentNames[i] + ".");
+        }
+    }
+
+    public static boolean checkDepartmentIdExist(int departmentId) {
+        for (int i = 0; i < departmentIdsItemsNumber; i++) {
+            if (i == departmentId) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void addStudent() {
@@ -248,6 +311,12 @@ public class UniversityManagementSystem {
 
     public static void student() {
 
+    }
+
+    public static void successProcess() {
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        System.out.println("^     Success Process     ^");
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^");
     }
 
 }
