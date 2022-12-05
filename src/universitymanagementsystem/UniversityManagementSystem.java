@@ -8,18 +8,27 @@ public class UniversityManagementSystem {
     static int selected;
 
     // Admin authentication
-    static String adminName = "Mohammed";
-    static String adminPassword = "123456";
+    static String adminName = "m";
+    static String adminPassword = "m";
+
+    // Arrayes length 
+    final static int length = 100;
 
     // Department information
-    int[] departmentIds = new int[100];
-    String[] departmentNames = new String[100];
+    static int[] departmentIds = new int[length];
+    static String[] departmentNames = new String[length];
+    static int departmentIdsItemsNumber = 0;
+    static int departmentNamesItemsNumber = 0;
 
     // Course information
-    int[] courseIds = new int[100];
-    String[] courseNames = new String[100];
-    String[] courseCode = new String[100];
-    double[] courseNumberHours = new double[100];
+    static int[] courseIds = new int[length];
+    static String[] courseNames = new String[length];
+    static String[] courseCode = new String[length];
+    static double[] courseNumberHours = new double[length];
+    static int courseIdsItemsNumber = 0;
+    static int courseNamesItemsNumber = 0;
+    static int courseCodeItemsNumber = 0;
+    static int courseNumberHoursItemsNumber = 0;
 
     // Start app in this fnction
     public static void main(String[] args) {
@@ -170,7 +179,17 @@ public class UniversityManagementSystem {
     }
 
     public static void addDepartments() {
-
+        System.out.print("Enter Department ID: ");
+        int id = input.nextInt();
+        System.out.print("\nEnter Department Name: ");
+        String name = input.next();
+        departmentIds[departmentIdsItemsNumber] = id;
+        departmentNames[departmentNamesItemsNumber] = name;
+        departmentIdsItemsNumber++;
+        departmentNamesItemsNumber++;
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        System.out.println("^     Success Process     ^");
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^");
     }
 
     public static void addCourse() {
