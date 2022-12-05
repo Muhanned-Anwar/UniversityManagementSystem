@@ -193,7 +193,25 @@ public class UniversityManagementSystem {
     }
 
     public static void addCourse() {
-
+        System.out.print("Enter Course ID: ");
+        int id = input.nextInt();
+        System.out.print("\nEnter Course Name: ");
+        String name = input.next();
+        System.out.print("\nEnter Course Code: ");
+        String code = input.next();
+        System.out.print("\nEnter Course Number of Hours: ");
+        double numHours = input.nextDouble();
+        courseIds[courseIdsItemsNumber] = id;
+        courseNames[courseNamesItemsNumber] = name; // ItemsNumber
+        courseCode[courseCodeItemsNumber] = code;
+        courseNumberHours[courseNumberHoursItemsNumber] = numHours;
+        courseIdsItemsNumber++;
+        courseNamesItemsNumber++;
+        courseCodeItemsNumber++;
+        courseNumberHoursItemsNumber++;
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        System.out.println("^     Success Process     ^");
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^");
     }
 
     public static void addInstructor() {
