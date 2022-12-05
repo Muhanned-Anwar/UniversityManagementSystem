@@ -35,10 +35,32 @@ public class UniversityManagementSystem {
     static String[] instructorNames = new String[length];
     static String[] instructorPasswords = new String[length];
     static int[] instructorDepartmentIds = new int[length];
+    static String[] instructorAddresses = new String[length];
+    static double[] instructorAges = new double[length];
+    static String[] instructorPhones = new String[length];
     static int instructorIdsItemsNumber = 0;
     static int instructorNamesItemsNumber = 0;
     static int instructorPasswordsItemsNumber = 0;
     static int instructorDepartmentIdsItemsNumber = 0;
+    static int instructorAddressesItemsNumber = 0;
+    static int instructorAgesItemsNumber = 0;
+    static int instructorPhonesItemsNumber = 0;
+
+    // Student information
+    static int[] studentIds = new int[length];
+    static String[] studentNames = new String[length];
+    static String[] studentPasswords = new String[length];
+    static int[] studentDepartmentIds = new int[length];
+    static String[] studentAddresses = new String[length];
+    static double[] studentAges = new double[length];
+    static String[] studentPhones = new String[length];
+    static int studentIdsItemsNumber = 0;
+    static int studentNamesItemsNumber = 0;
+    static int studentPasswordsItemsNumber = 0;
+    static int studentDepartmentIdsItemsNumber = 0;
+    static int studentAddressesItemsNumber = 0;
+    static int studentAgesItemsNumber = 0;
+    static int studentPhonesItemsNumber = 0;
 
     // Start app in this fnction
     public static void main(String[] args) {
@@ -198,6 +220,7 @@ public class UniversityManagementSystem {
                 + "Please select your choice[1, 2, 3, 4 or 5]:";
     }
 
+    // Create new deprtment
     public static void addDepartments() {
         System.out.print("Enter Department ID: ");
         int id = input.nextInt();
@@ -210,6 +233,7 @@ public class UniversityManagementSystem {
         successProcess();
     }
 
+    // Create new course
     public static void addCourse() {
         System.out.print("Enter Course ID: ");
         int id = input.nextInt();
@@ -230,6 +254,7 @@ public class UniversityManagementSystem {
         successProcess();
     }
 
+    // Create new instructor
     public static void addInstructor() {
         System.out.print("Enter Instructor ID: ");
         int id = input.nextInt();
@@ -237,7 +262,7 @@ public class UniversityManagementSystem {
         String name = input.next();
         System.out.print("\nEnter Instructor Password: ");
         String password = input.next();
-        int departmentId = 0;
+        int departmentId;
         while (true) {
             if (departmentIdsItemsNumber != 0) {
                 while (true) {
@@ -245,7 +270,7 @@ public class UniversityManagementSystem {
                     showDepartments();
                     departmentId = input.nextInt();
                     if (checkDepartmentIdExist(departmentId)) {
-                        instructorIds[instructorIdsItemsNumber] = id;
+                        instructorDepartmentIds[instructorDepartmentIdsItemsNumber] = departmentId;
                         break;
                     } else {
                         System.out.println("Error, Enter Department Id corrected!");
@@ -256,22 +281,37 @@ public class UniversityManagementSystem {
                 addDepartments();
             }
         }
+        System.out.print("\nEnter Instructor Address: ");
+        String address = input.next();
+        System.out.print("\nEnter Instructor Age: ");
+        double age = input.nextDouble();
+        System.out.print("\nEnter Instructor Phone: ");
+        String phone = input.next();
+
+        instructorIds[instructorIdsItemsNumber] = id;
         instructorNames[instructorNamesItemsNumber] = name;
         instructorPasswords[instructorPasswordsItemsNumber] = password;
-        instructorDepartmentIds[instructorDepartmentIdsItemsNumber] = departmentId;
+        instructorAddresses[instructorAddressesItemsNumber] = address;
+        instructorAges[instructorAgesItemsNumber] = age;
+        instructorPhones[instructorPhonesItemsNumber] = phone;
         instructorIdsItemsNumber++;
         instructorNamesItemsNumber++;
         instructorPasswordsItemsNumber++;
         instructorDepartmentIdsItemsNumber++;
+        instructorAddressesItemsNumber++;
+        instructorAgesItemsNumber++;
+        instructorPhonesItemsNumber++;
         successProcess();
     }
 
+    // Show All Departments
     public static void showDepartments() {
         for (int i = 0; i < departmentIdsItemsNumber; i++) {
             System.out.println(i + "-" + departmentNames[i] + ".");
         }
     }
 
+    // Check if department is exist return true else return false
     public static boolean checkDepartmentIdExist(int departmentId) {
         for (int i = 0; i < departmentIdsItemsNumber; i++) {
             if (i == departmentId) {
@@ -282,7 +322,52 @@ public class UniversityManagementSystem {
     }
 
     public static void addStudent() {
+        System.out.print("Enter Student ID: ");
+        int id = input.nextInt();
+        System.out.print("\nEnter Student Name: ");
+        String name = input.next();
+        System.out.print("\nEnter Student Password: ");
+        String password = input.next();
+        int departmentId = 0;
+        while (true) {
+            if (departmentIdsItemsNumber != 0) {
+                while (true) {
+                    System.out.println("\nSelect Department: ");
+                    showDepartments();
+                    departmentId = input.nextInt();
+                    if (checkDepartmentIdExist(departmentId)) {
+                        studentDepartmentIds[studentDepartmentIdsItemsNumber] = departmentId;
+                        break;
+                    } else {
+                        System.out.println("Error, Enter Department Id corrected!");
+                    }
+                }
+                break;
+            } else {
+                addDepartments();
+            }
+        }
+        System.out.print("\nEnter Student Address: ");
+        String address = input.next();
+        System.out.print("\nEnter Student Age: ");
+        double age = input.nextDouble();
+        System.out.print("\nEnter Student Phone: ");
+        String phone = input.next();
 
+        studentIds[studentIdsItemsNumber] = id;
+        studentNames[studentNamesItemsNumber] = name;
+        studentPasswords[studentPasswordsItemsNumber] = password;
+        studentAddresses[instructorAddressesItemsNumber] = address;
+        studentAges[instructorAgesItemsNumber] = age;
+        studentPhones[instructorPhonesItemsNumber] = phone;
+        studentIdsItemsNumber++;
+        studentNamesItemsNumber++;
+        studentPasswordsItemsNumber++;
+        studentDepartmentIdsItemsNumber++;
+        studentAddressesItemsNumber++;
+        studentAgesItemsNumber++;
+        studentPhonesItemsNumber++;
+        successProcess();
     }
 
     public static void assgin() {
