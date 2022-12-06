@@ -393,11 +393,11 @@ public class UniversityManagementSystem {
 
         while (true) {
             System.out.println("......... Select Course .........");
-            showCourses();
+            showAllCourses();
             System.out.print("Enter Course ID:");
             int courseId;
             courseId = input.nextInt();
-            if (checkCourseIdExistAndNotAssigned(courseId,instructorId)) {
+            if (checkCourseIdExistAndNotAssigned(courseId, instructorId)) {
                 courseInstructorIds[courseInstructorIdsItemsNumber] = instructorId;
                 instructorCourseIds[instructorCourseIdsItemsNumber] = courseId;
                 courseInstructorIdsItemsNumber++;
@@ -432,7 +432,7 @@ public class UniversityManagementSystem {
         if (result) {
             for (int i = 0; i < instructorCourseIdsItemsNumber; i++) {
                 if (instructorCourseIds[i] == courseId) {
-                    if(courseInstructorIds[i] == instructorId){
+                    if (courseInstructorIds[i] == instructorId) {
                         System.out.println("Has been previously assigned");
                         return false;
                     }
@@ -448,15 +448,111 @@ public class UniversityManagementSystem {
         return result;
     }
 
-    // Show All Courses
-    public static void showCourses() {
-        for (int i = 0; i < courseIdsItemsNumber; i++) {
-            System.out.println(i + "- [" + "Course ID:" + courseIds[i] + " | Name:" + courseNames[i] + " | Code:" + courseCodes[i] + " | Hour:" + courseNumberHours[i] + "].");
+    // Show all item in system
+    public static void show() {
+        messageAdminOptions("Choose the thing you want to Show All to it");
+        int select = 0;
+        do {
+            select = selection(textSelectionAdminShow());
+            switch (select) {
+                case 1: {
+                    showAllDepartments();
+                    break;
+                }
+                case 2: {
+                    showAllCourses();
+                    break;
+                }
+                case 3: {
+                    showAllInstructors();
+                    break;
+                }
+                case 4: {
+                    showAllStudents();
+                    break;
+                }
+            }
+        } while (select != 5);
+    }
+
+    public static String textSelectionAdminShow() {
+        return "\n"
+                + "1. Show All Departments.\n"
+                + "2. Show All Courses.\n"
+                + "3. Show All Instructors.\n"
+                + "4. Show All Students.\n"
+                + "5. Exit.\n"
+                + "Please select your choice[1, 2, 3, 4 or 5]:";
+    }
+
+    // Show All Departments
+    public static void showAllDepartments() {
+        if (departmentIdsItemsNumber > 0) {
+            for (int i = 0; i < departmentIdsItemsNumber; i++) {
+                System.out.println(i + "- [" + "Department ID:" + departmentIds[i] + " | Name:" + departmentNames[i] + "].");
+            }
+        } else {
+            System.out.println("Not found any department, Add Departments!!");
         }
     }
 
-    public static void show() {
+    // Show All Courses
+    public static void showAllCourses() {
+        if (courseIdsItemsNumber > 0) {
+            for (int i = 0; i < courseIdsItemsNumber; i++) {
+                System.out.println(i + "- [" + "Course ID:" + courseIds[i] + " | Name:" + courseNames[i] + " | Code:" + courseCodes[i] + " | Hour:" + courseNumberHours[i] + "].");
+            }
+        } else {
+            System.out.println("Not found any course, Add Courses!!");
+        }
+    }
 
+    // Show All Instructors
+    public static void showAllInstructors() {
+        if (instructorIdsItemsNumber > 0) {
+            for (int i = 0; i < instructorIdsItemsNumber; i++) {
+                System.out.println(i + "- ["
+                        + "Instructor ID:" + instructorIds[i]
+                        + " | Department:" + searchDepartmentName(instructorDepartmentIds[i])
+                        + " | Instructor Name:" + instructorNames[i]
+                        + " | Password:" + instructorPasswords[i]
+                        + " | Address:" + instructorAddresses[i]
+                        + " | Phone:" + instructorPhones[i]
+                        + "].");
+            }
+        } else {
+            System.out.println("Not found any instructor, Add Instructors!!");
+        }
+    }
+
+    // Taken department id and return department name
+    public static String searchDepartmentName(int id) {
+        for (int i = 0; i < departmentIdsItemsNumber; i++) {
+            if (departmentIds[i] == id) {
+                return departmentNames[i];
+            }
+        }
+        return "Not Has Name";
+    }
+
+    // Show All Students
+    public static void showAllStudents() {
+        if (studentIdsItemsNumber > 0) {
+            for (int i = 0; i < studentIdsItemsNumber; i++) {
+                System.out.println(i + "- ["
+                        + "Student ID:" + studentIds[i]
+                        + " | Department:" + searchDepartmentName(studentDepartmentIds[i])
+                        + " | Name:" + studentNames[i]
+                        + " | Password:" + studentPasswords[i]
+                        + " | Address:" + studentAddresses[i]
+                        + " | Age:" + studentAges[i]
+                        + " | Phone:" + studentPhones[i]
+                        + " | Average:" + '-'
+                        + "].");
+            }
+        } else {
+            System.out.println("Not found any student, Add Students!!");
+        }
     }
 
     public static void update() {
