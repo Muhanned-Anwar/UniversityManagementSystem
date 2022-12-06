@@ -23,7 +23,7 @@ public class UniversityManagementSystem {
     // Course information
     static int[] courseIds = new int[length];
     static String[] courseNames = new String[length];
-    static String[] courseCode = new String[length];
+    static String[] courseCodes = new String[length];
     static double[] courseNumberHours = new double[length];
     static int courseIdsItemsNumber = 0;
     static int courseNamesItemsNumber = 0;
@@ -45,6 +45,12 @@ public class UniversityManagementSystem {
     static int instructorAddressesItemsNumber = 0;
     static int instructorAgesItemsNumber = 0;
     static int instructorPhonesItemsNumber = 0;
+
+    // Link instructor with courses
+    static int[] instructorCourseIds = new int[length];
+    static int instructorCourseIdsItemsNumber = 0;
+    static int[] courseInstructorIds = new int[length];
+    static int courseInstructorIdsItemsNumber = 0;
 
     // Student information
     static int[] studentIds = new int[length];
@@ -183,7 +189,7 @@ public class UniversityManagementSystem {
 
     // Show add options
     public static void add() {
-        System.out.println("~~~~~~~~~~~~~~ Choose the thing you want to add to it ~~~~~~~~~~~~~~");
+        messageAdminOptions("Choose the thing you want to add to it");
         int select = 0;
         do {
             select = selection(textSelectionAdminAdd());
@@ -245,7 +251,7 @@ public class UniversityManagementSystem {
         double numHours = input.nextDouble();
         courseIds[courseIdsItemsNumber] = id;
         courseNames[courseNamesItemsNumber] = name;
-        courseCode[courseCodeItemsNumber] = code;
+        courseCodes[courseCodeItemsNumber] = code;
         courseNumberHours[courseNumberHoursItemsNumber] = numHours;
         courseIdsItemsNumber++;
         courseNamesItemsNumber++;
@@ -321,6 +327,7 @@ public class UniversityManagementSystem {
         return false;
     }
 
+    // Add logic to add student function
     public static void addStudent() {
         System.out.print("Enter Student ID: ");
         int id = input.nextInt();
@@ -370,8 +377,82 @@ public class UniversityManagementSystem {
         successProcess();
     }
 
+    // Assgin Course to instructor
     public static void assgin() {
+        messageAdminOptions("Assgin Course To Instructor");
+        int instructorId;
+        while (true) {
+            System.out.print("Enter Instructor Id: ");
+            instructorId = input.nextInt();
+            if (checkInstructorIdExist(instructorId)) {
+                break;
+            } else {
+                System.out.println("Error, Enter Instructor Id corrected!");
+            }
+        }
 
+        while (true) {
+            System.out.println("......... Select Course .........");
+            showCourses();
+            System.out.print("Enter Course ID:");
+            int courseId;
+            courseId = input.nextInt();
+            if (checkCourseIdExistAndNotAssigned(courseId,instructorId)) {
+                courseInstructorIds[courseInstructorIdsItemsNumber] = instructorId;
+                instructorCourseIds[instructorCourseIdsItemsNumber] = courseId;
+                courseInstructorIdsItemsNumber++;
+                instructorCourseIdsItemsNumber++;
+                successProcess();
+                break;
+            }
+        }
+
+    }
+
+    // Check if instructor is exist return true else return false
+    public static boolean checkInstructorIdExist(int instructorId) {
+        for (int i = 0; i < instructorIdsItemsNumber; i++) {
+            if (instructorIds[i] == instructorId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Check if course is exist and not assigned return true else return false
+    public static boolean checkCourseIdExistAndNotAssigned(int courseId, int instructorId) {
+        boolean result = false;
+        for (int i = 0; i < courseIdsItemsNumber; i++) {
+            if (courseIds[i] == courseId) {
+                result = true;
+                break;
+            }
+        }
+
+        if (result) {
+            for (int i = 0; i < instructorCourseIdsItemsNumber; i++) {
+                if (instructorCourseIds[i] == courseId) {
+                    if(courseInstructorIds[i] == instructorId){
+                        System.out.println("Has been previously assigned");
+                        return false;
+                    }
+                    System.out.println("  !!!!! Sorry, course is Assgined !!!!!");
+                    return false;
+                }
+            }
+        } else {
+            System.out.println("  !!!!! Sorry, Course is not exist, Enter correct course id !!!!!");
+            return false;
+        }
+
+        return result;
+    }
+
+    // Show All Courses
+    public static void showCourses() {
+        for (int i = 0; i < courseIdsItemsNumber; i++) {
+            System.out.println(i + "- [" + "Course ID:" + courseIds[i] + " | Name:" + courseNames[i] + " | Code:" + courseCodes[i] + " | Hour:" + courseNumberHours[i] + "].");
+        }
     }
 
     public static void show() {
@@ -402,6 +483,10 @@ public class UniversityManagementSystem {
         System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^");
         System.out.println("^     Success Process     ^");
         System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+    }
+
+    public static void messageAdminOptions(String message) {
+        System.out.println("~~~~~~~~~~~~~~ " + message + " ~~~~~~~~~~~~~~");
     }
 
 }
