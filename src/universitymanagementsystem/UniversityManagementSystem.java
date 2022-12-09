@@ -1040,39 +1040,7 @@ public class UniversityManagementSystem {
             } while (select != 7);
         }
     }
-    // Returned for show admin option
-    public static String textSelectionInstructor() {
-        return "\n"
-                + "1. Show All Student In All Course.\n"
-                + "2. Show All Student In Specific Course.\n"
-                + "3. Show Course.\n"
-                + "4. Search Student.\n"
-                + "5. Set Grade.\n"
-                + "6. Profile Instructor.\n"
-                + "7. Exit.\n"
-                + "Please select your choice[1, 2, 3, 4, 5, 6 or 7]:";
-    }
 
-    public static void showAllStudentInAllCourse(){
-        
-    }
-    
-    public static void showAllStudentInSpecificCourse(){
-        
-    }
-    
-    public static void showCourse(){
-        
-    }
-   
-    public static void setGrade(){
-        
-    }
-    
-    public static void profileInstructor(){
-        
-    }
-    
     // Check authientication for instructor
     public static boolean instructorAuth() {
         welcoming("Instructor");
@@ -1092,8 +1060,116 @@ public class UniversityManagementSystem {
 
     }
 
-    public static void student() {
+    // Returned for show admin option
+    public static String textSelectionInstructor() {
+        return "\n"
+                + "1. Show All Student In All Course.\n"
+                + "2. Show All Student In Specific Course.\n"
+                + "3. Show Course.\n"
+                + "4. Search Student.\n"
+                + "5. Set Grade.\n"
+                + "6. Profile Instructor.\n"
+                + "7. Exit.\n"
+                + "Please select your choice[1, 2, 3, 4, 5, 6 or 7]:";
+    }
 
+    public static void showAllStudentInAllCourse() {
+
+    }
+
+    public static void showAllStudentInSpecificCourse() {
+
+    }
+
+    public static void showCourse() {
+
+    }
+
+    public static void setGrade() {
+
+    }
+
+    public static void profileInstructor() {
+
+    }
+
+    static String studentName = "";
+
+    public static void student() {
+        if (studentAuth()) {
+            welcoming(studentName);
+            int select = 0;
+            do {
+                select = selection(textSelectionStudent());
+                switch (select) {
+                    case 1: {
+                        registerCourse();
+                        break;
+                    }
+                    case 2: {
+                        showAllRegisteredCourse();
+                        break;
+                    }
+                    case 3: {
+                        deleteStudentCourse();
+                        break;
+                    }
+                    case 4: {
+                        average();
+                        break;
+                    }
+                    case 5: {
+                        studentProfile();
+                        break;
+                    }
+                }
+            } while (select != 6);
+        }
+    }
+
+    // Check authientication for student
+    public static boolean studentAuth() {
+        welcoming("Student");
+        System.out.print("Enter username: ");
+        String name = input.next();
+        System.out.print("\nEnter password: ");
+        String password = input.next();
+        for (int i = 0; i < studentIdsItemsNumber; i++) {
+            if (name.equalsIgnoreCase(studentNames[i])
+                    && password.equalsIgnoreCase(studentPasswords[i])) {
+                studentName = studentNames[i];
+                return true;
+            }
+        }
+        messageIncorrectData();
+        return false;
+
+    }
+
+    public static String textSelectionStudent() {
+        return "\n"
+                + "1. Register Course.\n"
+                + "2. Show All Registered Course.\n"
+                + "3. Delete Course.\n"
+                + "4. Average.\n"
+                + "5. Student Profile.\n"
+                + "6. Exit.\n"
+                + "Please select your choice[1, 2, 3, 4, 5 or 6]:";
+    }
+
+    public static void registerCourse() {
+    }
+
+    public static void showAllRegisteredCourse() {
+    }
+
+    public static void deleteStudentCourse() {
+    }
+
+    public static void average() {
+    }
+
+    public static void studentProfile() {
     }
 
     public static void successProcess() {
