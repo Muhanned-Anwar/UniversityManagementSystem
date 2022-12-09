@@ -557,6 +557,7 @@ public class UniversityManagementSystem {
         }
     }
 
+    // Update all items in system
     public static void update() {
         messageAdminOptions("Choose the thing you want to Update to it");
         int select = 0;
@@ -895,7 +896,107 @@ public class UniversityManagementSystem {
     }
 
     public static void search() {
+        messageAdminOptions("Choose the thing you want to Search");
+        int select = 0;
+        do {
+            select = selection(textSelectionAdminSearch());
+            switch (select) {
+                case 1: {
+                    searchDepartment();
+                    break;
+                }
+                case 2: {
+                    searchCourse();
+                    break;
+                }
+                case 3: {
+                    searchInstructor();
+                    break;
+                }
+                case 4: {
+                    searchStudent();
+                    break;
+                }
+            }
+        } while (select != 5);
+    }
 
+    public static String textSelectionAdminSearch() {
+        return "\n"
+                + "1. Search Department.\n"
+                + "2. Search Courses.\n"
+                + "3. SearchInstructor.\n"
+                + "4. SearchStudents.\n"
+                + "5. SearchExit.\n"
+                + "Please select your choice[1, 2, 3, 4 or 5]:";
+    }
+
+    public static void searchDepartment() {
+        messageUpdate("Departments");
+        System.out.print("Enter Departments ID: ");
+        int id = input.nextInt();
+        int index = searchDepartment(id);
+        if (index != -1) {
+            System.out.println("0" + "- [" + "Department ID:" + departmentIds[index] + " | Name:" + departmentNames[index] + "].");
+            successProcess();
+        } else {
+            messageIncorrectData();
+        }
+    }
+
+    public static void searchCourse() {
+        messageUpdate("Course");
+        System.out.print("Enter Course ID: ");
+        int id = input.nextInt();
+        int index = searchCourse(id);
+        if (index != -1) {
+            System.out.println("0" + "- [" + "Course ID:" + courseIds[index] + " | Name:" + courseNames[index] + " | Code:" + courseCodes[index] + " | Hour:" + courseNumberHours[index] + "].");
+            successProcess();
+        } else {
+            messageIncorrectData();
+        }
+    }
+
+    public static void searchInstructor() {
+        messageUpdate("Instructor");
+        System.out.print("Enter Instructor ID: ");
+        int id = input.nextInt();
+        int index = searchInstructor(id);
+        if (index != -1) {
+            System.out.println("0" + "- ["
+                    + "Instructor ID:" + instructorIds[index]
+                    + " | Department:" + searchDepartmentName(instructorDepartmentIds[index])
+                    + " | Instructor Name:" + instructorNames[index]
+                    + " | Password:" + instructorPasswords[index]
+                    + " | Address:" + instructorAddresses[index]
+                    + " | Phone:" + instructorPhones[index]
+                    + "].");
+            successProcess();
+        } else {
+            messageIncorrectData();
+        }
+    }
+
+    public static void searchStudent() {
+        messageUpdate("Student");
+        System.out.print("Enter Student ID: ");
+        int id = input.nextInt();
+        int index = searchStudent(id);
+        if (index != -1) {
+            System.out.println("0" + "- ["
+                    + "Student ID:" + studentIds[index]
+                    + " | Department:" + searchDepartmentName(studentDepartmentIds[index])
+                    + " | Name:" + studentNames[index]
+                    + " | Password:" + studentPasswords[index]
+                    + " | Address:" + studentAddresses[index]
+                    + " | Age:" + studentAges[index]
+                    + " | Phone:" + studentPhones[index]
+                    + " | Average:" + '-'
+                    + "].");
+            successProcess();
+        } else {
+            messageIncorrectData();
+        }
     }
 
     public static void instructor() {
