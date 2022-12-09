@@ -556,6 +556,54 @@ public class UniversityManagementSystem {
     }
 
     public static void update() {
+        messageAdminOptions("Choose the thing you want to Update to it");
+        int select = 0;
+        do {
+            select = selection(textSelectionAdminUpdate());
+            switch (select) {
+                case 1: {
+                    updateDepartment();
+                    break;
+                }
+                case 2: {
+                    updateCourse();
+                    break;
+                }
+                case 3: {
+                    updateInstructor();
+                    break;
+                }
+                case 4: {
+                    updateStudent();
+                    break;
+                }
+            }
+        } while (select != 5);
+    }
+
+    public static String textSelectionAdminUpdate() {
+        return "\n"
+                + "1. Update Departments.\n"
+                + "2. Update Courses.\n"
+                + "3. Update Instructors.\n"
+                + "4. Update Students.\n"
+                + "5. Exit.\n"
+                + "Please select your choice[1, 2, 3, 4 or 5]:";
+    }
+
+    public static void updateDepartment() {
+
+    }
+
+    public static void updateCourse() {
+
+    }
+
+    public static void updateInstructor() {
+
+    }
+
+    public static void updateStudent() {
 
     }
 
