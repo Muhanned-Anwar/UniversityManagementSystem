@@ -698,7 +698,55 @@ public class UniversityManagementSystem {
     }
 
     public static void updateStudent() {
+        messageUpdate("Student");
+        System.out.print("Enter Student ID: ");
+        int id = input.nextInt();
+        int index = searchStudent(id);
+        if (index != -1) {
+            System.out.print("\nEnter Student Name: ");
+            String name = input.next();
+            int departmentId;
+            while (true) {
+                if (departmentIdsItemsNumber != 0) {
+                    while (true) {
+                        System.out.println("\nSelect Department: ");
+                        showDepartments();
+                        departmentId = input.nextInt();
+                        if (checkDepartmentIdExist(departmentId)) {
+                            instructorDepartmentIds[index] = departmentId;
+                            break;
+                        } else {
+                            System.out.println("Error, Enter Department Id corrected!");
+                        }
+                    }
+                    break;
+                } else {
+                    addDepartments();
+                }
+            }
+            System.out.print("\nEnter Student Address: ");
+            String address = input.next();
+            System.out.print("\nEnter Student Age: ");
+            double age = input.nextDouble();
+            System.out.print("\nEnter Student Phone: ");
+            String phone = input.next();
+            studentNames[index] = name;
+            studentAddresses[index] = address;
+            studentAges[index] = age;
+            studentPhones[index] = phone;
+            successProcess();
+        } else {
+            messageIncorrectData();
+        }
+    }
 
+    public static int searchStudent(int id) {
+        for (int i = 0; i < studentIdsItemsNumber; i++) {
+            if (studentIds[i] == id) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public static void delete() {
