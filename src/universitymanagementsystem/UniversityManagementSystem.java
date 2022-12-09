@@ -89,12 +89,15 @@ public class UniversityManagementSystem {
             switch (selected) {
                 case 1: {
                     adminAuth();
+                    break;
                 }
                 case 2: {
                     instructor();
+                    break;
                 }
                 case 3: {
                     student();
+                    break;
                 }
             }
             System.out.println("\n\n---------------------------------------------\n\n");
@@ -135,8 +138,7 @@ public class UniversityManagementSystem {
                 && password.equalsIgnoreCase(adminPassword)) {
             admin();
         } else {
-            System.out.println("\n  ^_^ Sorry, the data is incorrect ^_^  ");
-            System.out.println("  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  ");
+            messageIncorrectData();
         }
     }
 
@@ -557,7 +559,7 @@ public class UniversityManagementSystem {
         }
     }
 
-    // Update all items in system
+    // Update any items in system
     public static void update() {
         messageAdminOptions("Choose the thing you want to Update to it");
         int select = 0;
@@ -752,6 +754,7 @@ public class UniversityManagementSystem {
         return -1;
     }
 
+    // Delete any item in system
     public static void delete() {
         messageAdminOptions("Choose the thing you want to Delete to it");
         int select = 0;
@@ -895,6 +898,7 @@ public class UniversityManagementSystem {
         }
     }
 
+    // Search for any item in system
     public static void search() {
         messageAdminOptions("Choose the thing you want to Search");
         int select = 0;
@@ -927,7 +931,7 @@ public class UniversityManagementSystem {
                 + "2. Search Courses.\n"
                 + "3. SearchInstructor.\n"
                 + "4. SearchStudents.\n"
-                + "5. SearchExit.\n"
+                + "5. Exit.\n"
                 + "Please select your choice[1, 2, 3, 4 or 5]:";
     }
 
@@ -999,7 +1003,92 @@ public class UniversityManagementSystem {
         }
     }
 
+    static String instructorName = "";
+
     public static void instructor() {
+        if (instructorAuth()) {
+            welcoming(instructorName);
+            int select = 0;
+            do {
+                select = selection(textSelectionInstructor());
+                switch (select) {
+                    case 1: {
+                        showAllStudentInAllCourse();
+                        break;
+                    }
+                    case 2: {
+                        showAllStudentInSpecificCourse();
+                        break;
+                    }
+                    case 3: {
+                        showCourse();
+                        break;
+                    }
+                    case 4: {
+                        searchStudent();
+                        break;
+                    }
+                    case 5: {
+                        setGrade();
+                        break;
+                    }
+                    case 6: {
+                        profileInstructor();
+                        break;
+                    }
+                }
+            } while (select != 7);
+        }
+    }
+    // Returned for show admin option
+    public static String textSelectionInstructor() {
+        return "\n"
+                + "1. Show All Student In All Course.\n"
+                + "2. Show All Student In Specific Course.\n"
+                + "3. Show Course.\n"
+                + "4. Search Student.\n"
+                + "5. Set Grade.\n"
+                + "6. Profile Instructor.\n"
+                + "7. Exit.\n"
+                + "Please select your choice[1, 2, 3, 4, 5, 6 or 7]:";
+    }
+
+    public static void showAllStudentInAllCourse(){
+        
+    }
+    
+    public static void showAllStudentInSpecificCourse(){
+        
+    }
+    
+    public static void showCourse(){
+        
+    }
+   
+    public static void setGrade(){
+        
+    }
+    
+    public static void profileInstructor(){
+        
+    }
+    
+    // Check authientication for instructor
+    public static boolean instructorAuth() {
+        welcoming("Instructor");
+        System.out.print("Enter username: ");
+        String name = input.next();
+        System.out.print("\nEnter password: ");
+        String password = input.next();
+        for (int i = 0; i < instructorIdsItemsNumber; i++) {
+            if (name.equalsIgnoreCase(instructorNames[i])
+                    && password.equalsIgnoreCase(instructorPasswords[i])) {
+                instructorName = instructorNames[i];
+                return true;
+            }
+        }
+        messageIncorrectData();
+        return false;
 
     }
 
@@ -1052,10 +1141,10 @@ public class UniversityManagementSystem {
             courseNumberHoursItemsNumber++;
 
             instructorIds[instructorIdsItemsNumber] = i;
-            instructorNames[instructorNamesItemsNumber] = "instructorNames " + i;
-            instructorPasswords[instructorPasswordsItemsNumber] = "instructorPasswords " + i;
+            instructorNames[instructorNamesItemsNumber] = "instructorNames" + i;
+            instructorPasswords[instructorPasswordsItemsNumber] = "instructorPasswords" + i;
             instructorDepartmentIds[i] = i;
-            instructorAddresses[instructorAddressesItemsNumber] = "instructorAddresses " + i;
+            instructorAddresses[instructorAddressesItemsNumber] = "instructorAddresses" + i;
             instructorAges[instructorAgesItemsNumber] = 25 + i;
             instructorPhones[instructorPhonesItemsNumber] = phones[(int) Math.random() * 10];
             instructorIdsItemsNumber++;
@@ -1067,8 +1156,8 @@ public class UniversityManagementSystem {
             instructorPhonesItemsNumber++;
 
             studentIds[studentIdsItemsNumber] = i;
-            studentNames[studentNamesItemsNumber] = "studentNames " + i;
-            studentPasswords[studentPasswordsItemsNumber] = "studentPasswords " + i;
+            studentNames[studentNamesItemsNumber] = "studentNames" + i;
+            studentPasswords[studentPasswordsItemsNumber] = "studentPasswords" + i;
             studentAddresses[instructorAddressesItemsNumber] = "studentAddresses " + i;
             studentDepartmentIds[studentDepartmentIdsItemsNumber] = i;
             studentAges[instructorAgesItemsNumber] = 20 + 1;
