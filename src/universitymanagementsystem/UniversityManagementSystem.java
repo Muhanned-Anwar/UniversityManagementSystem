@@ -1,5 +1,6 @@
 package universitymanagementsystem;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class UniversityManagementSystem {
@@ -70,6 +71,7 @@ public class UniversityManagementSystem {
 
     // Start app in this fnction
     public static void main(String[] args) {
+        addFakeData();
         while (true) {
             if (mainFunction() == 4) {
                 break;
@@ -750,7 +752,146 @@ public class UniversityManagementSystem {
     }
 
     public static void delete() {
+        messageAdminOptions("Choose the thing you want to Delete to it");
+        int select = 0;
+        do {
+            select = selection(textSelectionAdminDelete());
+            switch (select) {
+                case 1: {
+                    deleteDepartment();
+                    break;
+                }
+                case 2: {
+                    deleteCourse();
+                    break;
+                }
+                case 3: {
+                    deleteInstructor();
+                    break;
+                }
+                case 4: {
+                    deleteStudent();
+                    break;
+                }
+            }
+        } while (select != 5);
+    }
 
+    public static String textSelectionAdminDelete() {
+        return "\n"
+                + "1. Delete Department.\n"
+                + "2. Delete Courses.\n"
+                + "3. Delete Instructor.\n"
+                + "4. Delete Students.\n"
+                + "5. Exit.\n"
+                + "Please select your choice[1, 2, 3, 4 or 5]:";
+    }
+
+    public static void deleteDepartment() {
+        messageDelete("Departments");
+        System.out.print("Enter Departments ID: ");
+        int id = input.nextInt();
+        boolean isExist = false;
+        for (int i = 0; i < departmentIdsItemsNumber; i++) {
+            if (departmentIds[i] == id) {
+                departmentIdsItemsNumber--;
+                isExist = true;
+            }
+            if (isExist) {
+                departmentIds[i] = departmentIds[i + 1];
+                departmentNames[i] = departmentNames[i + 1];
+            }
+        }
+
+        if (isExist) {
+            successProcess();
+        } else {
+            messageIncorrectData();
+        }
+    }
+
+    public static void deleteCourse() {
+        messageDelete("Course");
+        System.out.print("Enter Course ID: ");
+        int id = input.nextInt();
+
+        boolean isExist = false;
+        for (int i = 0; i < courseIdsItemsNumber; i++) {
+            if (courseIds[i] == id) {
+                courseIdsItemsNumber--;
+                isExist = true;
+            }
+            if (isExist) {
+                courseIds[i] = courseIds[i + 1];
+                courseNames[i] = courseNames[i + 1];
+                courseCodes[i] = courseCodes[i + 1];
+                courseNumberHours[i] = courseNumberHours[i + 1];
+            }
+        }
+
+        if (isExist) {
+            successProcess();
+        } else {
+            messageIncorrectData();
+        }
+    }
+
+    public static void deleteInstructor() {
+        messageDelete("Instructor");
+        System.out.print("Enter Instructor ID: ");
+        int id = input.nextInt();
+
+        boolean isExist = false;
+        for (int i = 0; i < instructorIdsItemsNumber; i++) {
+            if (instructorIds[i] == id) {
+                instructorIdsItemsNumber--;
+                isExist = true;
+            }
+            if (isExist) {
+                instructorIds[i] = instructorIds[i + 1];
+                instructorNames[i] = instructorNames[i + 1];
+                instructorPasswords[i] = instructorPasswords[i + 1];
+                instructorDepartmentIds[i] = instructorDepartmentIds[i + 1];
+                instructorAddresses[i] = instructorAddresses[i + 1];
+                instructorAges[i] = instructorAges[i + 1];
+                instructorPhones[i] = instructorPhones[i + 1];
+            }
+        }
+
+        if (isExist) {
+            successProcess();
+        } else {
+            messageIncorrectData();
+        }
+    }
+
+    public static void deleteStudent() {
+        messageDelete("Student");
+        System.out.print("Enter Student ID: ");
+        int id = input.nextInt();
+
+        boolean isExist = false;
+        for (int i = 0; i < studentIdsItemsNumber; i++) {
+            if (studentIds[i] == id) {
+                studentIdsItemsNumber--;
+                isExist = true;
+            }
+            if (isExist) {
+                studentIds[i] = studentIds[i + 1];
+                studentNames[i] = studentNames[i + 1];
+                studentPasswords[i] = studentPasswords[i + 1];
+                studentDepartmentIds[i] = studentDepartmentIds[i + 1];
+                studentAddresses[i] = studentAddresses[i + 1];
+                studentAges[i] = studentAges[i + 1];
+                studentPhones[i] = studentPhones[i + 1];
+            }
+        }
+
+        if (isExist) {
+            successProcess();
+        } else {
+            messageIncorrectData();
+        }
     }
 
     public static void search() {
@@ -779,9 +920,67 @@ public class UniversityManagementSystem {
         System.out.println("------------ Update " + message + "------------");
     }
 
+    public static void messageDelete(String message) {
+        System.out.println("------------ Update " + message + "------------");
+    }
+
     public static void messageIncorrectData() {
         System.out.println("^_^ Sorry, the data is incorrect ^_^");
         System.out.println("    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^    ");
+    }
+
+    public static void addFakeData() {
+        String[] phones = {"0569873232", "0567423132",
+            "0599732654", "0593421456",
+            "0569745638", "0599876234",
+            "0599921234", "05673234123",
+            "0569123435", "0599232345"};
+        for (int i = 0; i < 10; i++) {
+            departmentIds[departmentIdsItemsNumber] = i;
+            departmentNames[departmentNamesItemsNumber] = "departmentNames " + i;
+            departmentIdsItemsNumber++;
+            departmentNamesItemsNumber++;
+
+            courseIds[courseIdsItemsNumber] = i;
+            courseNames[courseNamesItemsNumber] = "courseNames " + i;
+            courseCodes[courseCodeItemsNumber] = "100" + i;
+            courseNumberHours[courseNumberHoursItemsNumber] = i + 5;
+            courseIdsItemsNumber++;
+            courseNamesItemsNumber++;
+            courseCodeItemsNumber++;
+            courseNumberHoursItemsNumber++;
+
+            instructorIds[instructorIdsItemsNumber] = i;
+            instructorNames[instructorNamesItemsNumber] = "instructorNames " + i;
+            instructorPasswords[instructorPasswordsItemsNumber] = "instructorPasswords " + i;
+            instructorDepartmentIds[i] = i;
+            instructorAddresses[instructorAddressesItemsNumber] = "instructorAddresses " + i;
+            instructorAges[instructorAgesItemsNumber] = 25 + i;
+            instructorPhones[instructorPhonesItemsNumber] = phones[(int) Math.random() * 10];
+            instructorIdsItemsNumber++;
+            instructorNamesItemsNumber++;
+            instructorPasswordsItemsNumber++;
+            instructorDepartmentIdsItemsNumber++;
+            instructorAddressesItemsNumber++;
+            instructorAgesItemsNumber++;
+            instructorPhonesItemsNumber++;
+
+            studentIds[studentIdsItemsNumber] = i;
+            studentNames[studentNamesItemsNumber] = "studentNames " + i;
+            studentPasswords[studentPasswordsItemsNumber] = "studentPasswords " + i;
+            studentAddresses[instructorAddressesItemsNumber] = "studentAddresses " + i;
+            studentDepartmentIds[studentDepartmentIdsItemsNumber] = i;
+            studentAges[instructorAgesItemsNumber] = 20 + 1;
+            studentPhones[instructorPhonesItemsNumber] = phones[(int) Math.random() * 10];
+            studentIdsItemsNumber++;
+            studentNamesItemsNumber++;
+            studentPasswordsItemsNumber++;
+            studentDepartmentIdsItemsNumber++;
+            studentAddressesItemsNumber++;
+            studentAgesItemsNumber++;
+            studentPhonesItemsNumber++;
+
+        }
     }
 
 }
