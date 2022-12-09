@@ -592,7 +592,27 @@ public class UniversityManagementSystem {
     }
 
     public static void updateDepartment() {
+        messageUpdate("Departments");
+        System.out.print("Enter Departments ID: ");
+        int id = input.nextInt();
+        int index = searchDepartment(id);
+        if (index != -1) {
+            System.out.println("Enter Department Name: ");
+            String name = input.next();
+            departmentNames[index] = name;
+            successProcess();
+        } else {
+            messageIncorrectData();
+        }
+    }
 
+    public static int searchDepartment(int id) {
+        for (int i = 0; i < departmentIdsItemsNumber; i++) {
+            if (departmentIds[i] == id) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public static void updateCourse() {
@@ -631,6 +651,15 @@ public class UniversityManagementSystem {
 
     public static void messageAdminOptions(String message) {
         System.out.println("~~~~~~~~~~~~~~ " + message + " ~~~~~~~~~~~~~~");
+    }
+
+    public static void messageUpdate(String message) {
+        System.out.println("------------ Update " + message + "------------");
+    }
+
+    public static void messageIncorrectData() {
+        System.out.println("^_^ Sorry, the data is incorrect ^_^");
+        System.out.println("    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^    ");
     }
 
 }
