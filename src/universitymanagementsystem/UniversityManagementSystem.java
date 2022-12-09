@@ -646,7 +646,55 @@ public class UniversityManagementSystem {
     }
 
     public static void updateInstructor() {
+        messageUpdate("Instructor");
+        System.out.print("Enter Instructor ID: ");
+        int id = input.nextInt();
+        int index = searchInstructor(id);
+        if (index != -1) {
+            System.out.print("\nEnter Instructor Name: ");
+            String name = input.next();
+            int departmentId;
+            while (true) {
+                if (departmentIdsItemsNumber != 0) {
+                    while (true) {
+                        System.out.println("\nSelect Department: ");
+                        showDepartments();
+                        departmentId = input.nextInt();
+                        if (checkDepartmentIdExist(departmentId)) {
+                            instructorDepartmentIds[index] = departmentId;
+                            break;
+                        } else {
+                            System.out.println("Error, Enter Department Id corrected!");
+                        }
+                    }
+                    break;
+                } else {
+                    addDepartments();
+                }
+            }
+            System.out.print("\nEnter Instructor Address: ");
+            String address = input.next();
+            System.out.print("\nEnter Instructor Age: ");
+            double age = input.nextDouble();
+            System.out.print("\nEnter Instructor Phone: ");
+            String phone = input.next();
+            instructorNames[index] = name;
+            instructorAddresses[index] = address;
+            instructorAges[index] = age;
+            instructorPhones[index] = phone;
+            successProcess();
+        } else {
+            messageIncorrectData();
+        }
+    }
 
+    public static int searchInstructor(int id) {
+        for (int i = 0; i < instructorIdsItemsNumber; i++) {
+            if (instructorIds[i] == id) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public static void updateStudent() {
