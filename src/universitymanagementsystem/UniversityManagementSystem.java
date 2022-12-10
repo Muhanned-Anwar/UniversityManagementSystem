@@ -574,6 +574,9 @@ public class UniversityManagementSystem {
                 }
             }
         }
+        if(index == 0){
+            return 0.0;
+        }
         return sum / index;
     }
 
@@ -1098,7 +1101,7 @@ public class UniversityManagementSystem {
     }
 
     public static void showAllStudentInAllCourse() {
-        messagenstructor("Show All Student In All Course");
+        messageInstructor("Show All Student In All Course");
         if (hasCourse()) {
             boolean hasCourse = false;
             for (int i = 0; i < instructorCourseIdsItemsNumber; i++) {
@@ -1177,7 +1180,7 @@ public class UniversityManagementSystem {
     }
 
     public static void showAllStudentInSpecificCourse() {
-        messagenstructor("Show All Student In Course");
+        messageInstructor("Show All Student In Course");
         if (hasCourse()) {
             System.out.print("Enter course id: ");
             int courseId = input.nextInt();
@@ -1231,7 +1234,7 @@ public class UniversityManagementSystem {
     }
 
     public static void showCourse() {
-        messagenstructor("Show Courses");
+        messageInstructor("Show Courses");
         if (hasCourse()) {
             boolean hasCourse = false;
             int j = 0;
@@ -1261,7 +1264,7 @@ public class UniversityManagementSystem {
     }
 
     public static void setGrade() {
-        messagenstructor("Grades");
+        messageInstructor("Grades");
         if (hasCourse()) {
             System.out.print("Enter course id: ");
             int courseId = input.nextInt();
@@ -1308,7 +1311,7 @@ public class UniversityManagementSystem {
     }
 
     public static void profileInstructor() {
-        messagenstructor("Instructor Profile");
+        messageInstructor("Instructor Profile");
 
         int index = searchInstructor(instructorId);
         System.out.println("0" + "- ["
@@ -1505,9 +1508,22 @@ public class UniversityManagementSystem {
     }
 
     public static void average() {
+        System.out.println("Average: " + calculateAvg(studentAuthId));
     }
 
     public static void studentProfile() {
+        messageStudent("Student Profile");
+
+        int index = searchStudent(studentAuthId);
+        System.out.println("0" + "- ["
+                + "Student ID:" + studentIds[index]
+                + " | Department:" + searchDepartmentName(studentDepartmentIds[index])
+                + " | Name:" + studentNames[index]
+                + " | Address:" + studentAddresses[index]
+                + " | Age:" + studentAges[index]
+                + " | Phone:" + studentPhones[index]
+                + " | Average:" + calculateAvg(studentAuthId)
+                + "].");
     }
 
     public static void successProcess() {
@@ -1532,7 +1548,7 @@ public class UniversityManagementSystem {
         System.out.println("------------ " + message + "------------");
     }
 
-    public static void messagenstructor(String message) {
+    public static void messageInstructor(String message) {
         System.out.println("------------ " + message + "------------");
     }
 
