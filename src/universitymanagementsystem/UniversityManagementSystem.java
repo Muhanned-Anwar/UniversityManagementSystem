@@ -1009,6 +1009,7 @@ public class UniversityManagementSystem {
         }
     }
 
+    static int instructorId = -1;
     static String instructorName = "";
 
     public static void instructor() {
@@ -1058,6 +1059,7 @@ public class UniversityManagementSystem {
             if (name.equalsIgnoreCase(instructorNames[i])
                     && password.equalsIgnoreCase(instructorPasswords[i])) {
                 instructorName = instructorNames[i];
+                instructorId = instructorIds[i];
                 return true;
             }
         }
@@ -1080,7 +1082,74 @@ public class UniversityManagementSystem {
     }
 
     public static void showAllStudentInAllCourse() {
-        showAllStudents();
+        if (hasCourse()) {
+            boolean hasCourse = false;
+            for (int i = 0; i < instructorCourseIdsItemsNumber; i++) {
+                if (courseInstructorIds[i] == instructorId) {
+                    hasCourse = true;
+                    if (courseHasStudent(instructorCourseIds[i])) {
+                        for (int j = 0; j < studentCourseIdsItemsNumber; j++) {
+                            if (studentCourseIds[j] == instructorCourseIds[i]) {
+                                showStudent(courseStudentIds[j]);
+                            }
+                        }
+                    } else {
+                        System.out.println("Your courses not have any register student");
+                    }
+                }
+            }
+            successProcess();
+        } else {
+            System.out.println("No course has been assigned to you, "
+                    + "please request to assign a course from the adminNo "
+                    + "course has been assigned to you, please request to "
+                    + "assign a course from the admin");
+        }
+
+    }
+
+    public static void showStudent(int id) {
+        int index = searchStudent(id);
+        if (index != -1) {
+            System.out.println("0" + "- ["
+                    + "Student ID:" + studentIds[index]
+                    + " | Department:" + searchDepartmentName(studentDepartmentIds[index])
+                    + " | Name:" + studentNames[index]
+                    + " | Password:" + studentPasswords[index]
+                    + " | Address:" + studentAddresses[index]
+                    + " | Age:" + studentAges[index]
+                    + " | Phone:" + studentPhones[index]
+                    + " | Average:" + '-'
+                    + "].");
+        } else {
+            messageIncorrectData();
+        }
+    }
+
+    public static boolean hasCourse() {
+        if (instructorCourseIdsItemsNumber == 0) {
+            return false;
+        } else {
+            for (int i = 0; i < instructorCourseIdsItemsNumber; i++) {
+                if (courseInstructorIds[i] == instructorId) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean courseHasStudent(int courseId) {
+        if (studentCourseIdsItemsNumber == 0) {
+            return false;
+        } else {
+            for (int i = 0; i < studentCourseIdsItemsNumber; i++) {
+                if (studentCourseIds[i] == courseId) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static void showAllStudentInSpecificCourse() {
@@ -1165,6 +1234,7 @@ public class UniversityManagementSystem {
                 + "Please select your choice[1, 2, 3, 4, 5 or 6]:";
     }
 
+    // Register course for current student(auth)
     public static void registerCourse() {
         messageStudent("Register Course");
         showAllCourses();
@@ -1293,6 +1363,16 @@ public class UniversityManagementSystem {
             studentAddressesItemsNumber++;
             studentAgesItemsNumber++;
             studentPhonesItemsNumber++;
+
+            instructorCourseIds[i] = i;
+            instructorCourseIdsItemsNumber++;
+            courseInstructorIds[0] = i;
+            courseInstructorIdsItemsNumber++;
+
+            studentCourseIds[i] = i;
+            studentCourseIdsItemsNumber++;
+            courseStudentIds[i] = i;
+            courseStudentIdsItemsNumber++;
 
         }
     }
