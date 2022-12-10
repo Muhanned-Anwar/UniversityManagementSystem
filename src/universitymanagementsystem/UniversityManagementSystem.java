@@ -1280,7 +1280,7 @@ public class UniversityManagementSystem {
                                     int id = showStudent(courseStudentIds[j], index);
                                     System.out.print("Enter Grade:");
                                     double grade = input.nextDouble();
-                                    grades[id] = grade;
+                                    grades[j] = grade;
                                 }
                             }
                             if (isHasStudent) {
@@ -1336,7 +1336,7 @@ public class UniversityManagementSystem {
                         break;
                     }
                     case 2: {
-                        showAllRegisteredCourse();
+                        showAllRegisteredCourse(true);
                         break;
                     }
                     case 3: {
@@ -1413,8 +1413,8 @@ public class UniversityManagementSystem {
 
         if (result) {
             for (int i = 0; i < studentCourseIdsItemsNumber; i++) {
-                if (courseStudentIds[i] == studentId) {
-                    System.out.println("!!!! Sorry, Course is alrady Registere! !!!");
+                if (courseStudentIds[i] == studentId && studentCourseIds[i] == courseId) {
+                    System.out.println("!!!! Sorry, Course is alrady Registered! !!!");
                     return false;
                 }
             }
@@ -1426,10 +1426,82 @@ public class UniversityManagementSystem {
         return result;
     }
 
-    public static void showAllRegisteredCourse() {
+    public static void showAllRegisteredCourse(boolean withMessages) {
+        boolean isExist = false;
+        int currentIndex = 0;
+        if (studentCourseIdsItemsNumber > 0) {
+            for (int i = 0; i < studentCourseIdsItemsNumber; i++) {
+                if (courseStudentIds[i] == studentAuthId) {
+                    int index = searchCourse(studentCourseIds[i]);
+                    if (index != -1) {
+                        isExist = true;
+                        System.out.println(currentIndex + "- ["
+                                + "Course ID:" + courseIds[index]
+                                + " | Name:" + courseNames[index]
+                                + " | Code:" + courseCodes[index]
+                                + " | Hour:" + courseNumberHours[index]
+                                + " | Grade: " + grades[i]
+                                + "]."
+                        );
+                        currentIndex++;
+                    }
+                }
+            }
+        }
+
+        if (isExist) {
+            if (withMessages) {
+                successProcess();
+            }
+        } else {
+            System.out.println("You do not have any course, please register courses!!");
+        }
+
     }
 
     public static void deleteStudentCourse() {
+        messageStudent("Delete Course");
+        showAllRegisteredCourse(false);
+        System.out.print("Enter Course ID: ");
+        int id = input.nextInt();
+
+        boolean isDeleted = false;
+        for (int i = 0; i < studentCourseIdsItemsNumber; i++) {
+            if (studentCourseIds[i] == id && courseStudentIds[i] == studentAuthId) {
+                courseStudentIdsItemsNumber--;
+                studentCourseIdsItemsNumber--;
+                isDeleted = true;
+            }
+            if (isDeleted) {
+                courseStudentIds[i] = courseStudentIds[i + 1];
+                studentCourseIds[i] = studentCourseIds[i + 1];
+                grades[i] = grades[i + 1];
+            }
+        }
+        if (isDeleted) {
+            successProcess();
+        } else {
+            messageIncorrectData();
+        }
+
+    }
+
+    // Check if course is exist and not alredy registered to student return true else return false
+    public static int checkCourseIdExistAndAlredayRegisteredStudent(int courseId, int studentId) {
+        boolean result = false;
+        result = checkCourseIdExist(courseId);
+
+        if (result) {
+            for (int i = 0; i < studentCourseIdsItemsNumber; i++) {
+                if (courseStudentIds[i] == studentId && studentCourseIds[i] == courseId) {
+                    return i;
+                }
+            }
+        } else {
+            return -1;
+        }
+
+        return -1;
     }
 
     public static void average() {
