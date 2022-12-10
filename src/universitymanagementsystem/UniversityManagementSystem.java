@@ -58,6 +58,7 @@ public class UniversityManagementSystem {
     static int studentCourseIdsItemsNumber = 0;
     static int[] courseStudentIds = new int[length];
     static int courseStudentIdsItemsNumber = 0;
+    static double[] grades = new double[length];
 
     // Student information
     static int[] studentIds = new int[length];
@@ -179,6 +180,8 @@ public class UniversityManagementSystem {
                     search();
                     break;
                 }
+                case 7:
+                    System.out.println("Logout Successfully");
             }
         } while (select != 7);
 
@@ -552,12 +555,26 @@ public class UniversityManagementSystem {
                         + " | Address:" + studentAddresses[i]
                         + " | Age:" + studentAges[i]
                         + " | Phone:" + studentPhones[i]
-                        + " | Average:" + '-'
+                        + " | Average:" + calculateAvg(studentIds[i])
                         + "].");
             }
         } else {
             System.out.println("Not found any student, Add Students!!");
         }
+    }
+
+    public static double calculateAvg(int studentId) {
+        double sum = 0;
+        int index = 0;
+        for (int i = 0; i < courseStudentIdsItemsNumber; i++) {
+            if (courseStudentIds[i] == studentId) {
+                if (grades[i] != 0.0) {
+                    sum += grades[i];
+                    index++;
+                }
+            }
+        }
+        return sum / index;
     }
 
     // Update any items in system
@@ -996,7 +1013,7 @@ public class UniversityManagementSystem {
                     + " | Address:" + studentAddresses[index]
                     + " | Age:" + studentAges[index]
                     + " | Phone:" + studentPhones[index]
-                    + " | Average:" + '-'
+                    + " | Average:" + calculateAvg(studentIds[index])
                     + "].");
             successProcess();
         } else {
@@ -1005,7 +1022,7 @@ public class UniversityManagementSystem {
     }
 
     static int instructorId = -1;
-    static String instructorName = "";
+    static String instructorName = null;
 
     public static void instructor() {
         if (instructorAuth()) {
@@ -1038,6 +1055,10 @@ public class UniversityManagementSystem {
                         profileInstructor();
                         break;
                     }
+                    case 7:
+                        instructorId = -1;
+                        instructorName = null;
+                        System.out.println("Logout Successfully");
                 }
             } while (select != 7);
         }
@@ -1051,12 +1072,10 @@ public class UniversityManagementSystem {
         System.out.print("\nEnter password: ");
         String password = input.next();
         for (int i = 0; i < instructorIdsItemsNumber; i++) {
-//            if (name.equalsIgnoreCase(instructorNames[i])
-//                    && password.equalsIgnoreCase(instructorPasswords[i])) {
-            if ("instructorNames0".equalsIgnoreCase(instructorNames[i])
-                    && "instructorPasswords0".equalsIgnoreCase(instructorPasswords[i])) {
-                instructorName = instructorNames[2];
-                instructorId = instructorIds[2];
+            if (name.equalsIgnoreCase(instructorNames[i])
+                    && password.equalsIgnoreCase(instructorPasswords[i])) {
+                instructorName = instructorNames[i];
+                instructorId = instructorIds[i];
                 return true;
             }
         }
@@ -1109,7 +1128,7 @@ public class UniversityManagementSystem {
     }
 
     // show spasific student
-    public static void showStudent(int id, int j) {
+    public static int showStudent(int id, int j) {
         int index = searchStudent(id);
         if (index != -1) {
             System.out.println(j + "- ["
@@ -1120,10 +1139,12 @@ public class UniversityManagementSystem {
                     + " | Address:" + studentAddresses[index]
                     + " | Age:" + studentAges[index]
                     + " | Phone:" + studentPhones[index]
-                    + " | Average:" + '-'
+                    + " | Average:" + calculateAvg(studentIds[index])
                     + "].");
+            return index;
         } else {
             messageIncorrectData();
+            return -1;
         }
     }
 
@@ -1240,7 +1261,50 @@ public class UniversityManagementSystem {
     }
 
     public static void setGrade() {
-
+        messagenstructor("Grades");
+        if (hasCourse()) {
+            System.out.print("Enter course id: ");
+            int courseId = input.nextInt();
+            boolean hasCourse = false;
+            if (checkCourseIdExist(courseId)) {
+                for (int i = 0; i < instructorCourseIdsItemsNumber; i++) {
+                    if (instructorCourseIds[i] == courseId && courseInstructorIds[i] == instructorId) {
+                        hasCourse = true;
+                        if (courseHasStudent(instructorCourseIds[i])) {
+                            int index = 0;
+                            boolean isHasStudent = false;
+                            for (int j = 0; j < studentCourseIdsItemsNumber; j++) {
+                                if (studentCourseIds[j] == instructorCourseIds[i]) {
+                                    index++;
+                                    isHasStudent = true;
+                                    int id = showStudent(courseStudentIds[j], index);
+                                    System.out.print("Enter Grade:");
+                                    double grade = input.nextDouble();
+                                    grades[id] = grade;
+                                }
+                            }
+                            if (isHasStudent) {
+                                successProcess();
+                            } else {
+                                messageIncorrectData();
+                            }
+                        } else {
+                            System.out.println("Your courses not have any register student");
+                        }
+                    }
+                    if (!hasCourse()) {
+                        messageIncorrectData();
+                    }
+                }
+            } else {
+                messageIncorrectData();
+            }
+        } else {
+            System.out.println("No course has been assigned to you, "
+                    + "please request to assign a course from the adminNo "
+                    + "course has been assigned to you, please request to "
+                    + "assign a course from the admin");
+        }
     }
 
     public static void profileInstructor() {
@@ -1258,7 +1322,7 @@ public class UniversityManagementSystem {
     }
 
     static int studentAuthId = -1;
-    static String studentAuthName = "";
+    static String studentAuthName = null;
 
     public static void student() {
         if (studentAuth()) {
@@ -1287,6 +1351,10 @@ public class UniversityManagementSystem {
                         studentProfile();
                         break;
                     }
+                    case 6:
+                        studentAuthId = -1;
+                        studentAuthName = null;
+                        System.out.println("Logout Successfully");
                 }
             } while (select != 6);
         }
