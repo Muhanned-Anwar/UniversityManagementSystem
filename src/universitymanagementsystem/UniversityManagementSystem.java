@@ -432,12 +432,7 @@ public class UniversityManagementSystem {
     // Check if course is exist and not assigned return true else return false
     public static boolean checkCourseIdExistAndNotAssigned(int courseId, int instructorId) {
         boolean result = false;
-        for (int i = 0; i < courseIdsItemsNumber; i++) {
-            if (courseIds[i] == courseId) {
-                result = true;
-                break;
-            }
-        }
+        result = checkCourseIdExist(courseId);
 
         if (result) {
             for (int i = 0; i < instructorCourseIdsItemsNumber; i++) {
@@ -1056,8 +1051,10 @@ public class UniversityManagementSystem {
         System.out.print("\nEnter password: ");
         String password = input.next();
         for (int i = 0; i < instructorIdsItemsNumber; i++) {
-            if (name.equalsIgnoreCase(instructorNames[i])
-                    && password.equalsIgnoreCase(instructorPasswords[i])) {
+//            if (name.equalsIgnoreCase(instructorNames[i])
+//                    && password.equalsIgnoreCase(instructorPasswords[i])) {
+            if ("instructorNames0".equalsIgnoreCase(instructorNames[i])
+                    && "instructorPasswords0".equalsIgnoreCase(instructorPasswords[i])) {
                 instructorName = instructorNames[i];
                 instructorId = instructorIds[i];
                 return true;
@@ -1082,15 +1079,18 @@ public class UniversityManagementSystem {
     }
 
     public static void showAllStudentInAllCourse() {
+        messagenstructor("Show All Student In All Course");
         if (hasCourse()) {
             boolean hasCourse = false;
             for (int i = 0; i < instructorCourseIdsItemsNumber; i++) {
                 if (courseInstructorIds[i] == instructorId) {
                     hasCourse = true;
                     if (courseHasStudent(instructorCourseIds[i])) {
+                        int index = 0;
                         for (int j = 0; j < studentCourseIdsItemsNumber; j++) {
                             if (studentCourseIds[j] == instructorCourseIds[i]) {
-                                showStudent(courseStudentIds[j]);
+                                index++;
+                                showStudent(courseStudentIds[j], index);
                             }
                         }
                     } else {
@@ -1108,10 +1108,11 @@ public class UniversityManagementSystem {
 
     }
 
-    public static void showStudent(int id) {
+    // show spasific student
+    public static void showStudent(int id, int j) {
         int index = searchStudent(id);
         if (index != -1) {
-            System.out.println("0" + "- ["
+            System.out.println(j + "- ["
                     + "Student ID:" + studentIds[index]
                     + " | Department:" + searchDepartmentName(studentDepartmentIds[index])
                     + " | Name:" + studentNames[index]
@@ -1126,6 +1127,7 @@ public class UniversityManagementSystem {
         }
     }
 
+    // check if current instructor has course
     public static boolean hasCourse() {
         if (instructorCourseIdsItemsNumber == 0) {
             return false;
@@ -1139,6 +1141,7 @@ public class UniversityManagementSystem {
         return false;
     }
 
+    // Check if course has student
     public static boolean courseHasStudent(int courseId) {
         if (studentCourseIdsItemsNumber == 0) {
             return false;
@@ -1153,11 +1156,87 @@ public class UniversityManagementSystem {
     }
 
     public static void showAllStudentInSpecificCourse() {
+        messagenstructor("Show All Student In Course");
+        if (hasCourse()) {
+            System.out.print("Enter course id: ");
+            int courseId = input.nextInt();
+            boolean hasCourse = false;
+            if (checkCourseIdExist(courseId)) {
+                for (int i = 0; i < instructorCourseIdsItemsNumber; i++) {
+                    if (instructorCourseIds[i] == courseId && courseInstructorIds[i] == instructorId) {
+                        hasCourse = true;
+                        if (courseHasStudent(instructorCourseIds[i])) {
+                            int index = 0;
+                            boolean isHasStudent = false;
+                            for (int j = 0; j < studentCourseIdsItemsNumber; j++) {
+                                if (studentCourseIds[j] == instructorCourseIds[i]) {
+                                    index++;
+                                    isHasStudent = true;
+                                    showStudent(courseStudentIds[j], index);
+                                }
+                            }
+                            if (isHasStudent) {
+                                successProcess();
+                            } else {
+                                messageIncorrectData();
+                            }
+                        } else {
+                            System.out.println("Your courses not have any register student");
+                        }
+                    }
+                    if (!hasCourse()) {
+                        messageIncorrectData();
+                    }
+                }
+            } else {
+                messageIncorrectData();
+            }
+        } else {
+            System.out.println("No course has been assigned to you, "
+                    + "please request to assign a course from the adminNo "
+                    + "course has been assigned to you, please request to "
+                    + "assign a course from the admin");
+        }
+    }
 
+    // Check if course is exist 
+    public static boolean checkCourseIdExist(int courseId) {
+        for (int i = 0; i < courseIdsItemsNumber; i++) {
+            if (courseIds[i] == courseId) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void showCourse() {
+        messagenstructor("Show Courses");
+        if (hasCourse()) {
+            boolean hasCourse = false;
+            int j = 0;
+            for (int i = 0; i < instructorCourseIdsItemsNumber; i++) {
+                if (courseInstructorIds[i] == instructorId) {
+                    j++;
+                    showCourseForInstructor(instructorCourseIds[i], j);
+                }
+            }
+            successProcess();
 
+        } else {
+            System.out.println("No course has been assigned to you, "
+                    + "please request to assign a course from the adminNo "
+                    + "course has been assigned to you, please request to "
+                    + "assign a course from the admin");
+        }
+    }
+
+    public static void showCourseForInstructor(int id, int j) {
+        int index = searchCourse(id);
+        if (index != -1) {
+            System.out.println(j + "- [" + "Course ID:" + courseIds[index] + " | Name:" + courseNames[index] + " | Code:" + courseCodes[index] + " | Hour:" + courseNumberHours[index] + "].");
+        } else {
+            messageIncorrectData();
+        }
     }
 
     public static void setGrade() {
@@ -1252,12 +1331,7 @@ public class UniversityManagementSystem {
     // Check if course is exist and not alredy registered to student return true else return false
     public static boolean checkCourseIdExistAndNotAlredayRegisteredStudent(int courseId, int studentId) {
         boolean result = false;
-        for (int i = 0; i < courseIdsItemsNumber; i++) {
-            if (courseIds[i] == courseId) {
-                result = true;
-                break;
-            }
-        }
+        result = checkCourseIdExist(courseId);
 
         if (result) {
             for (int i = 0; i < studentCourseIdsItemsNumber; i++) {
@@ -1305,6 +1379,10 @@ public class UniversityManagementSystem {
     }
 
     public static void messageStudent(String message) {
+        System.out.println("------------ " + message + "------------");
+    }
+
+    public static void messagenstructor(String message) {
         System.out.println("------------ " + message + "------------");
     }
 
@@ -1364,17 +1442,32 @@ public class UniversityManagementSystem {
             studentAgesItemsNumber++;
             studentPhonesItemsNumber++;
 
-            instructorCourseIds[i] = i;
+            instructorCourseIds[instructorCourseIdsItemsNumber] = i;
             instructorCourseIdsItemsNumber++;
-            courseInstructorIds[0] = i;
+            courseInstructorIds[courseInstructorIdsItemsNumber] = i;
             courseInstructorIdsItemsNumber++;
 
-            studentCourseIds[i] = i;
+            studentCourseIds[studentCourseIdsItemsNumber] = i;
             studentCourseIdsItemsNumber++;
-            courseStudentIds[i] = i;
+            courseStudentIds[courseStudentIdsItemsNumber] = i;
             courseStudentIdsItemsNumber++;
 
         }
+
+        instructorCourseIds[instructorCourseIdsItemsNumber] = 1;
+        instructorCourseIdsItemsNumber++;
+        courseInstructorIds[courseInstructorIdsItemsNumber] = 0;
+        courseInstructorIdsItemsNumber++;
+
+        studentCourseIds[studentCourseIdsItemsNumber] = 0;
+        studentCourseIdsItemsNumber++;
+        courseStudentIds[courseStudentIdsItemsNumber] = 3;
+        courseStudentIdsItemsNumber++;
+
+        studentCourseIds[studentCourseIdsItemsNumber] = 0;
+        studentCourseIdsItemsNumber++;
+        courseStudentIds[courseStudentIdsItemsNumber] = 4;
+        courseStudentIdsItemsNumber++;
     }
 
 }
