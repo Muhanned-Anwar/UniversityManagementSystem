@@ -53,6 +53,12 @@ public class UniversityManagementSystem {
     static int[] courseInstructorIds = new int[length];
     static int courseInstructorIdsItemsNumber = 0;
 
+    // Link student with courses
+    static int[] studentCourseIds = new int[length];
+    static int studentCourseIdsItemsNumber = 0;
+    static int[] courseStudentIds = new int[length];
+    static int courseStudentIdsItemsNumber = 0;
+
     // Student information
     static int[] studentIds = new int[length];
     static String[] studentNames = new String[length];
@@ -1074,7 +1080,7 @@ public class UniversityManagementSystem {
     }
 
     public static void showAllStudentInAllCourse() {
-
+        showAllStudents();
     }
 
     public static void showAllStudentInSpecificCourse() {
@@ -1093,11 +1099,12 @@ public class UniversityManagementSystem {
 
     }
 
-    static String studentName = "";
+    static int studentAuthId = -1;
+    static String studentAuthName = "";
 
     public static void student() {
         if (studentAuth()) {
-            welcoming(studentName);
+            welcoming(studentAuthName);
             int select = 0;
             do {
                 select = selection(textSelectionStudent());
@@ -1137,7 +1144,8 @@ public class UniversityManagementSystem {
         for (int i = 0; i < studentIdsItemsNumber; i++) {
             if (name.equalsIgnoreCase(studentNames[i])
                     && password.equalsIgnoreCase(studentPasswords[i])) {
-                studentName = studentNames[i];
+                studentAuthName = studentNames[i];
+                studentAuthId = studentIds[i];
                 return true;
             }
         }
@@ -1158,6 +1166,42 @@ public class UniversityManagementSystem {
     }
 
     public static void registerCourse() {
+        messageStudent("Register Course");
+        showAllCourses();
+        System.out.print("Enter Course ID: ");
+        int id = input.nextInt();
+        if (checkCourseIdExistAndNotAlredayRegisteredStudent(id, studentAuthId)) {
+            courseStudentIds[courseStudentIdsItemsNumber] = studentAuthId;
+            studentCourseIds[studentCourseIdsItemsNumber] = id;
+            courseStudentIdsItemsNumber++;
+            studentCourseIdsItemsNumber++;
+            successProcess();
+        }
+    }
+
+    // Check if course is exist and not alredy registered to student return true else return false
+    public static boolean checkCourseIdExistAndNotAlredayRegisteredStudent(int courseId, int studentId) {
+        boolean result = false;
+        for (int i = 0; i < courseIdsItemsNumber; i++) {
+            if (courseIds[i] == courseId) {
+                result = true;
+                break;
+            }
+        }
+
+        if (result) {
+            for (int i = 0; i < studentCourseIdsItemsNumber; i++) {
+                if (courseStudentIds[i] == studentId) {
+                    System.out.println("!!!! Sorry, Course is alrady Registere! !!!");
+                    return false;
+                }
+            }
+        } else {
+            System.out.println("  !!!!! Sorry, Course is not exist, Enter correct course id !!!!!");
+            return false;
+        }
+
+        return result;
     }
 
     public static void showAllRegisteredCourse() {
@@ -1188,6 +1232,10 @@ public class UniversityManagementSystem {
 
     public static void messageDelete(String message) {
         System.out.println("------------ Update " + message + "------------");
+    }
+
+    public static void messageStudent(String message) {
+        System.out.println("------------ " + message + "------------");
     }
 
     public static void messageIncorrectData() {
