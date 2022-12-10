@@ -1055,8 +1055,8 @@ public class UniversityManagementSystem {
 //                    && password.equalsIgnoreCase(instructorPasswords[i])) {
             if ("instructorNames0".equalsIgnoreCase(instructorNames[i])
                     && "instructorPasswords0".equalsIgnoreCase(instructorPasswords[i])) {
-                instructorName = instructorNames[i];
-                instructorId = instructorIds[i];
+                instructorName = instructorNames[2];
+                instructorId = instructorIds[2];
                 return true;
             }
         }
@@ -1244,7 +1244,17 @@ public class UniversityManagementSystem {
     }
 
     public static void profileInstructor() {
+        messagenstructor("Instructor Profile");
 
+        int index = searchInstructor(instructorId);
+        System.out.println("0" + "- ["
+                + "Instructor ID:" + instructorIds[index]
+                + " | Department:" + searchDepartmentName(instructorDepartmentIds[index])
+                + " | Instructor Name:" + instructorNames[index]
+                + " | Password:" + instructorPasswords[index]
+                + " | Address:" + instructorAddresses[index]
+                + " | Phone:" + instructorPhones[index]
+                + "].");
     }
 
     static int studentAuthId = -1;
